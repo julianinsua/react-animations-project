@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Transition from "react-transition-group/Transition";
+import CSSTransition from "react-transition-group/CSSTransition";
 import "./App.css";
 import Modal from "./components/Modal/Modal";
 import Backdrop from "./components/Backdrop/Backdrop";
@@ -42,6 +43,12 @@ class App extends Component {
 					timeout={1000}
 					mountOnEnter
 					unmountOnExit
+					onEnter={() => console.log("on enter")}
+					onEntering={() => console.log("on entering")}
+					onEntered={() => console.log("on entered")}
+					onExit={() => console.log("on exit")}
+					onExiting={() => console.log("on exiting")}
+					onExited={() => console.log("on exited")}
 				>
 					{(state) => (
 						<div
@@ -56,14 +63,15 @@ class App extends Component {
 						></div>
 					)}
 				</Transition>
-				<Transition
+				<CSSTransition
+					classNames='fade-slide'
 					in={this.state.modalIsOpen}
 					timeout={animationTiming}
 					mountOnEnter
 					unmountOnExit
 				>
-					{(state) => <Modal show={state} closed={this.closeModal} />}
-				</Transition>
+					<Modal show={this.state.showModal} closed={this.closeModal} />
+				</CSSTransition>
 				{this.state.modalIsOpen ? <Backdrop show /> : null}
 				<button className='Button' onClick={this.showModal}>
 					Open Modal
